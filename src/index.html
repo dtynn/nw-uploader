@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>nw-uploader</title>
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/global.js"></script>
+    <link href="static/css/global.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<p id="notification"></p>
+Access Key:<input type="password" id="accessKey"><br>
+Secret Key:<input type="password" id="secretKey"><br>
+<button type="button" id="setKeyPairs">确认</button>
+</body>
+<script type="text/javascript">
+    $(function(){
+        $('#accessKey').val(localStorage.access_key);
+        $('#secretKey').val(localStorage.secret_key);
+
+        $('#setKeyPairs').click(function(){
+            setKeyPairs();
+        })
+    });
+
+    var setKeyPairs = function() {
+        localStorage.access_key = $('#accessKey').val();
+        localStorage.secret_key = $('#secretKey').val();
+        notification('设置成功');
+    };
+
+    var notification = function(content) {
+        var _html;
+        _html = content;
+        $('#notification').html(_html);
+        setTimeout(clearNotification, 3000);
+    };
+
+    var clearNotification = function () {
+        $('#notification').html('');
+    }
+</script>
+</html>
