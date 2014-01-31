@@ -24,7 +24,14 @@ var qUploader = {
         access_key: '',
         secret_key: ''
     },
-    init: function() {
+    chooserInit: function(chooser) {
+        chooser.change(function(evt) {
+            var fileList = $(this)[0].files;
+            qUploader.startUploads(fileList);
+            chooser.val('');
+        });
+    },
+    qInit: function() {
         if (qiniu === undefined){
             qiniu = require('qiniu');
         }
@@ -32,13 +39,34 @@ var qUploader = {
         qiniu.conf.ACCESS_KEY = this.settings.access_key = localStorage.access_key || '';
         qiniu.conf.SECRET_KEY = this.settings.secret_key = localStorage.secret_key || '';
     },
-    makeUptoken: function() {
-        var putPolicy = new qiniu.rs.PutPolicy(this.settings.bucket);
+    makeUptoken: function(key) {
+        var scope = this.settings.bucket;
+        if (key !== undefined && key !== null) {
+            scope += ':' + key;
+        }
+        var putPolicy = new qiniu.rs.PutPolicy(scope);
         return putPolicy.token(null);
     },
-    startUpload: function(filePath) {
-        var token = this.makeUptoken();
-        console.log(token);
+    startUploads: function(fileList) {
+        for (var i = 0; i < fileList.length; i++) {
+            var file = fileList[i],
+                fname = file.name,
+                fsize = file.size,
+                fpath = file.path,
+                ftype = file.type;
+            this.doUpload(fpath, fname, fsize, ftype);
+        }
+    },
+    doUpload: function(fPath, fName, fSize, fType) {
+        var token = this.makeUptoken(null);
+        var putExtra = new qiniu.io.PutExtra();
+        qiniu.io.putFile(token, fName, fPath, putExtra, function(err, ret){
+            if(!err){
+                console.log(ret.key, ret.hash);
+            } else {
+                console.log(err);
+            }
+        });
     }
 };
 
@@ -47,6 +75,7 @@ var localSettings = {
         localStorage.bucket = $('#bucket').val();
         localStorage.access_key = $('#accessKey').val();
         localStorage.secret_key = $('#secretKey').val();
+        qUploader.qInit();
     },
     showLocalSettings: function() {
         $('#bucket').val(localStorage.bucket);
@@ -57,5 +86,6 @@ var localSettings = {
         localStorage.bucket = '';
         localStorage.access_key = '';
         localStorage.secret_key = '';
+        qUploader.qInit();
     }
 };

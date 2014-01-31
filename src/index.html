@@ -13,6 +13,7 @@ Bucket:<input type="text" id="bucket">
 Access Key:<input type="password" id="accessKey"><br>
 Secret Key:<input type="password" id="secretKey"><br>
 <button type="button" id="setQiniuSettings">确认</button>
+<input type="file" id="fileChooser" multiple>
 <div id="drop_zone"></div>
 </body>
 <script type="text/javascript">
@@ -36,6 +37,7 @@ Secret Key:<input type="password" id="secretKey"><br>
         $('#notification').html('');
     };
 
-    qUploader.init();
+    qUploader.qInit();
+    qUploader.chooserInit($('#fileChooser'));
 </script>
 </html>
