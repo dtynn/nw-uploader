@@ -15,3 +15,27 @@ var utils = {
         return b.toString()
     }
 };
+
+var qiniu;
+
+var qUploader = {
+    settings: {
+        bucket: '',
+        access_key: '',
+        secret_key: ''
+    },
+    init: function(bucket, ak, sk) {
+        qiniu = require('qiniu');
+        this.settings.bucket = bucket;
+        this.settings.access_key = ak;
+        this.settings.secret_key = sk;
+    },
+    makeUptoken: function() {
+        var putPolicy = new qiniu.rs.PutPolicy(this.settings.bucket);
+        return putPolicy.token();
+    },
+    startUpload: function(filePath) {
+        var token = this.makeUptoken();
+        console.log(token);
+    }
+}

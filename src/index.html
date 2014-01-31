@@ -12,31 +12,31 @@
 Bucket:<input type="text" id="bucket">
 Access Key:<input type="password" id="accessKey"><br>
 Secret Key:<input type="password" id="secretKey"><br>
-<button type="button" id="setSettings">确认</button>
+<button type="button" id="setQiniuSettings">确认</button>
 <div id="drop_zone"></div>
 </body>
 <script type="text/javascript">
     $(function(){
-        showSettings();
+        showQiniuSettings();
 
-        $('#setSettings').click(function(){
-            setSettings();
-            showSettings();
+        $('#setQiniuSettings').click(function(){
+            setQiniuSettings();
+            showQiniuSettings();
         })
     });
 
-    var setSettings = function() {
+    var setQiniuSettings = function() {
         localStorage.access_key = $('#accessKey').val();
         localStorage.secret_key = $('#secretKey').val();
         notification('设置成功');
     };
 
-    var clearSettings = function () {
+    var clearQiniuSettings = function () {
         localStorage.access_key = '';
         localStorage.secret_key = '';
     };
 
-    var showSettings = function () {
+    var showQiniuSettings = function () {
         $('#accessKey').val(localStorage.access_key);
         $('#secretKey').val(localStorage.secret_key);
     };
@@ -50,6 +50,8 @@ Secret Key:<input type="password" id="secretKey"><br>
 
     var clearNotification = function () {
         $('#notification').html('');
-    }
+    };
+
+    qUploader.init(localStorage.bucket, localStorage.access_key, localStorage.secret_key);
 </script>
 </html>
