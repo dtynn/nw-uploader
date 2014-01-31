@@ -17,29 +17,13 @@ Secret Key:<input type="password" id="secretKey"><br>
 </body>
 <script type="text/javascript">
     $(function(){
-        showQiniuSettings();
+        localSettings.showLocalSettings();
 
         $('#setQiniuSettings').click(function(){
-            setQiniuSettings();
-            showQiniuSettings();
+            localSettings.setLocalSettings();
+            localSettings.showLocalSettings();
         })
     });
-
-    var setQiniuSettings = function() {
-        localStorage.access_key = $('#accessKey').val();
-        localStorage.secret_key = $('#secretKey').val();
-        notification('设置成功');
-    };
-
-    var clearQiniuSettings = function () {
-        localStorage.access_key = '';
-        localStorage.secret_key = '';
-    };
-
-    var showQiniuSettings = function () {
-        $('#accessKey').val(localStorage.access_key);
-        $('#secretKey').val(localStorage.secret_key);
-    };
 
     var notification = function(content) {
         var _html;
@@ -52,6 +36,6 @@ Secret Key:<input type="password" id="secretKey"><br>
         $('#notification').html('');
     };
 
-    qUploader.init(localStorage.bucket, localStorage.access_key, localStorage.secret_key);
+    qUploader.init();
 </script>
 </html>

@@ -24,18 +24,38 @@ var qUploader = {
         access_key: '',
         secret_key: ''
     },
-    init: function(bucket, ak, sk) {
-        qiniu = require('qiniu');
-        this.settings.bucket = bucket;
-        this.settings.access_key = ak;
-        this.settings.secret_key = sk;
+    init: function() {
+        if (qiniu === undefined){
+            qiniu = require('qiniu');
+        }
+        this.settings.bucket = localStorage.bucket || '';
+        qiniu.conf.ACCESS_KEY = this.settings.access_key = localStorage.access_key || '';
+        qiniu.conf.SECRET_KEY = this.settings.secret_key = localStorage.secret_key || '';
     },
     makeUptoken: function() {
         var putPolicy = new qiniu.rs.PutPolicy(this.settings.bucket);
-        return putPolicy.token();
+        return putPolicy.token(null);
     },
     startUpload: function(filePath) {
         var token = this.makeUptoken();
         console.log(token);
     }
-}
+};
+
+var localSettings = {
+    setLocalSettings: function() {
+        localStorage.bucket = $('#bucket').val();
+        localStorage.access_key = $('#accessKey').val();
+        localStorage.secret_key = $('#secretKey').val();
+    },
+    showLocalSettings: function() {
+        $('#bucket').val(localStorage.bucket);
+        $('#accessKey').val(localStorage.access_key);
+        $('#secretKey').val(localStorage.secret_key);
+    },
+    clearLocalSettings: function() {
+        localStorage.bucket = '';
+        localStorage.access_key = '';
+        localStorage.secret_key = '';
+    }
+};
