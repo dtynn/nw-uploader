@@ -9,32 +9,34 @@
 </head>
 <body>
 <p id="notification"></p>
+Bucket:<input type="text" id="bucket">
 Access Key:<input type="password" id="accessKey"><br>
 Secret Key:<input type="password" id="secretKey"><br>
-<button type="button" id="setKeyPairs">确认</button>
+<button type="button" id="setSettings">确认</button>
+<div id="drop_zone"></div>
 </body>
 <script type="text/javascript">
     $(function(){
-        showKeyPair();
+        showSettings();
 
-        $('#setKeyPairs').click(function(){
-            setKeyPair();
-            showKeyPair();
+        $('#setSettings').click(function(){
+            setSettings();
+            showSettings();
         })
     });
 
-    var setKeyPair = function() {
+    var setSettings = function() {
         localStorage.access_key = $('#accessKey').val();
         localStorage.secret_key = $('#secretKey').val();
         notification('设置成功');
     };
 
-    var clearKeyPair = function () {
+    var clearSettings = function () {
         localStorage.access_key = '';
         localStorage.secret_key = '';
     };
 
-    var showKeyPair = function () {
+    var showSettings = function () {
         $('#accessKey').val(localStorage.access_key);
         $('#secretKey').val(localStorage.secret_key);
     };
