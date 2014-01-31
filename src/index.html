@@ -26,17 +26,6 @@ Secret Key:<input type="password" id="secretKey"><br>
         })
     });
 
-    var notification = function(content) {
-        var _html;
-        _html = content;
-        $('#notification').html(_html);
-        setTimeout(clearNotification, 3000);
-    };
-
-    var clearNotification = function () {
-        $('#notification').html('');
-    };
-
     qUploader.qInit();
     qUploader.chooserInit($('#fileChooser'));
 </script>

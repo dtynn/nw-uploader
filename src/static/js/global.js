@@ -89,3 +89,24 @@ var localSettings = {
         qUploader.qInit();
     }
 };
+
+var notification = {
+    selector: null,
+    timer: null,
+    init: function(selector) {
+        this.selector = selector;
+    },
+    show: function(content) {
+        var _html;
+        _html = content;
+        if (this.timer !== null) {
+            clearTimeout(this.timer);
+        }
+        this.selector.html(_html);
+        this.timer = setTimeout(this.clear, 3000);
+    },
+    clear: function() {
+        this.selector.html('');
+        this.timer = null;
+    }
+};
