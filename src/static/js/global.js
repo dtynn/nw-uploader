@@ -60,6 +60,7 @@ var qUploader = {
     doUpload: function(fPath, fName, fSize, fType) {
         var token = this.makeUptoken(null);
         var putExtra = new qiniu.io.PutExtra();
+        putExtra.mimeType = fType;
         qiniu.io.putFile(token, fName, fPath, putExtra, function(err, ret){
             if(!err){
                 console.log(ret.key, ret.hash);
@@ -107,6 +108,9 @@ var notification = {
     },
     clear: function() {
         this.selector.html('');
-        this.timer = null;
+        if (this.timer !== null) {
+            clearTimeout(this.timer);
+            this.timer = null;
+        }
     }
 };
